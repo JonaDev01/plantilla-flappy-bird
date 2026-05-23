@@ -1,0 +1,46 @@
+{
+  "display": {
+    "width": 480,
+    "height": 640,
+    "fps": 60,
+    "fullscreen": false,
+    "title": "FlappyClone",
+    "show_fps": false
+  },
+  "game": {
+    "gravity": 0.5,
+    "jump_strength": -9.5,
+    "pipe_speed": 3.0,
+    "pipe_gap": 155,
+    "pipe_spawn_interval": 90,
+    "ground_height": 80,
+    "min_pipe_margin": 70
+  },
+  "gpio": {
+    "enabled": false,
+    "jump_pin": 17,
+    "signal_pin": 27,
+    "signal_mode": "score_threshold",
+    "signal_score_threshold": 10,
+    "signal_pulse_seconds": 0.2
+  },
+  "assets": {
+    "images": {
+      "bird": "bird.png",
+      "pipe": "pipe.png",
+      "background": "background.png",
+      "ground": "ground.png"
+    },
+    "sounds": {
+      "music": "music.ogg",
+      "jump": "sfx_jump.ogg",
+      "point": "sfx_point.ogg",
+      "die": "sfx_die.ogg"
+    }
+  },
+  "audio": {
+    "music_volume": 0.4,
+    "sfx_volume": 0.7,
+    "enabled": true
+  }
+}
