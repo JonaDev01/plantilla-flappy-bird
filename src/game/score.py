@@ -13,7 +13,14 @@ _HIGHSCORE_FILE: Path = DATA_DIR / "highscore.json"
 
 
 class ScoreManager:
-    def __init__(self) -> None:
+    def __init__(self, highscore_path: Path | None = None) -> None:
+        """
+        Args:
+            highscore_path: ruta al archivo de récord.
+                            Si es None usa data/highscore.json (producción).
+                            Pasa una ruta temporal en tests para aislarlos.
+        """
+        self._hs_file: Path = highscore_path or _HIGHSCORE_FILE
         self.score: int = 0
         self.highscore: int = self._load_highscore()
 
@@ -29,8 +36,8 @@ class ScoreManager:
     def save_highscore(self) -> None:
         """Guarda el récord en disco."""
         try:
-            DATA_DIR.mkdir(parents=True, exist_ok=True)
-            _HIGHSCORE_FILE.write_text(
+            self._hs_file.parent.mkdir(parents=True, exist_ok=True)
+            self._hs_file.write_text(
                 json.dumps({"highscore": self.highscore}, indent=2),
                 encoding="utf-8",
             )
@@ -44,12 +51,11 @@ class ScoreManager:
     # Privado
     # ------------------------------------------------------------------ #
 
-    @staticmethod
-    def _load_highscore() -> int:
-        if not _HIGHSCORE_FILE.exists():
+    def _load_highscore(self) -> int:
+        if not self._hs_file.exists():
             return 0
         try:
-            data = json.loads(_HIGHSCORE_FILE.read_text(encoding="utf-8"))
+            data = json.loads(self._hs_file.read_text(encoding="utf-8"))
             return int(data.get("highscore", 0))
         except (json.JSONDecodeError, ValueError, OSError):
             return 0
