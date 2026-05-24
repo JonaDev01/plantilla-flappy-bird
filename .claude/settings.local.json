@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(if \\(-not $?\\) { \"Directorio vacio o no existe\" })"
-    ]
-  }
-}

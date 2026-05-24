@@ -20,6 +20,9 @@ data/highscore.json
 .idea/
 *.swp
 
+# Claude Code (configuración local del editor)
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db
