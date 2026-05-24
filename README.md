@@ -89,7 +89,7 @@ plantilla-flappy-bird/
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/TU_USUARIO/plantilla-flappy-bird.git
+git clone https://github.com/JonaDev01/plantilla-flappy-bird.git
 cd plantilla-flappy-bird
 
 # 2. Instalar dependencias
