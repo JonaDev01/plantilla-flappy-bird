@@ -12,7 +12,7 @@ _DEFAULTS: dict = {
         "height": 640,
         "fps": 60,
         "fullscreen": False,
-        "title": "FlappyClone",
+        "title": "Plantilla FlappyBird",
         "show_fps": False,
     },
     "game": {

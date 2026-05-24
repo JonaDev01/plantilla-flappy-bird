@@ -1,5 +1,5 @@
 """
-FlappyClone — Punto de entrada principal.
+Plantilla FlappyBird — Punto de entrada principal.
 
 Uso:
   python src/main.py           (desde la raíz del proyecto)
@@ -46,7 +46,7 @@ GOLD   = (255, 200, 0  )
 GRAY   = (180, 180, 180)
 
 
-class FlappyClone:
+class PlantillaFlappyBird:
     """Máquina de estados principal del juego."""
 
     def __init__(self) -> None:
@@ -307,4 +307,4 @@ class FlappyClone:
 
 # ────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    FlappyClone().run()
+    PlantillaFlappyBird().run()
