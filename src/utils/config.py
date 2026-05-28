@@ -32,6 +32,14 @@ _DEFAULTS: dict = {
         "signal_score_threshold": 10,
         "signal_pulse_seconds": 0.2,
     },
+    "audio": {
+        "enabled": True,
+        "master_volume": 1.0,
+        "music_volume": 0.5,
+        "sfx_volume": 0.8,
+        "muted": False,
+        "playlist_mode": "shuffle",
+    },
     "assets": {
         "images": {
             "bird": "bird.png",
@@ -40,16 +48,12 @@ _DEFAULTS: dict = {
             "ground": "ground.png",
         },
         "sounds": {
-            "music": "music.ogg",
-            "jump": "sfx_jump.ogg",
-            "point": "sfx_point.ogg",
-            "die": "sfx_die.ogg",
+            "sfx": {
+                "jump":  "sfx_jump.ogg",
+                "point": "sfx_point.ogg",
+                "die":   "sfx_die.ogg",
+            },
         },
-    },
-    "audio": {
-        "music_volume": 0.4,
-        "sfx_volume": 0.7,
-        "enabled": True,
     },
 }
 

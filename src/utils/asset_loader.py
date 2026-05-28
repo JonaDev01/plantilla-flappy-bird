@@ -1,45 +1,36 @@
 """
-Cargador dinámico de assets.
+Cargador dinámico de imágenes.
 
-Cómo reemplazar assets:
-  - Imágenes: coloca el PNG en la carpeta indicada en settings.json
-      assets/images/bird/      → bird.png   (o bird_0.png, bird_1.png, bird_2.png)
-      assets/images/pipes/     → pipe.png
-      assets/images/background/→ background.png
-      assets/images/ground/    → ground.png
-  - Música:   assets/sounds/music/ → music.ogg
-  - Efectos:  assets/sounds/sfx/   → sfx_jump.ogg / sfx_point.ogg / sfx_die.ogg
+Cómo reemplazar imágenes:
+  assets/images/bird/        → bird.png  (o bird_0.png / bird_1.png / bird_2.png)
+  assets/images/pipes/       → pipe.png
+  assets/images/background/  → background.png
+  assets/images/ground/      → ground.png
 
-Si un archivo no existe, se genera un placeholder automáticamente.
+Para audio ver: src/game/audio_manager.py
+Si un archivo no existe se genera un placeholder automáticamente.
 """
 from __future__ import annotations
 
 import pygame
 from pathlib import Path
-from typing import Optional
 
-from .paths import IMAGES_DIR, SOUNDS_DIR
+from .paths import IMAGES_DIR
 
 
 class AssetLoader:
-    """Carga y cachea todos los assets del juego."""
+    """Carga y cachea los assets gráficos del juego (solo imágenes)."""
 
     def __init__(self, config: dict) -> None:
         self._config = config
         self._images: dict[str, pygame.Surface] = {}
-        self._sounds: dict[str, Optional[pygame.mixer.Sound]] = {}
         self._bird_frames: list[pygame.Surface] = []
-        self._music_path: Optional[str] = None
 
-        self._load_all()
+        self._load_images()
 
     # ------------------------------------------------------------------ #
     # Carga principal
     # ------------------------------------------------------------------ #
-
-    def _load_all(self) -> None:
-        self._load_images()
-        self._load_sounds()
 
     def _load_images(self) -> None:
         img_cfg = self._config["assets"]["images"]
@@ -194,43 +185,6 @@ class AssetLoader:
         return surf
 
     # ------------------------------------------------------------------ #
-    # Carga de audio
-    # ------------------------------------------------------------------ #
-
-    def _load_sounds(self) -> None:
-        if not self._config["audio"]["enabled"]:
-            return
-
-        snd_cfg = self._config["assets"]["sounds"]
-        sfx_vol = self._config["audio"]["sfx_volume"]
-
-        sfx_map = {
-            "jump":  snd_cfg["jump"],
-            "point": snd_cfg["point"],
-            "die":   snd_cfg["die"],
-        }
-        for key, filename in sfx_map.items():
-            path = SOUNDS_DIR / "sfx" / filename
-            self._sounds[key] = self._load_sfx(path, sfx_vol)
-
-        # Música (ruta para pygame.mixer.music)
-        music_path = SOUNDS_DIR / "music" / snd_cfg["music"]
-        if music_path.exists():
-            self._music_path = str(music_path)
-
-    @staticmethod
-    def _load_sfx(path: Path, volume: float) -> Optional[pygame.mixer.Sound]:
-        if not path.exists():
-            return None
-        try:
-            snd = pygame.mixer.Sound(str(path))
-            snd.set_volume(volume)
-            return snd
-        except pygame.error as exc:
-            print(f"[Assets] No se pudo cargar SFX {path.name}: {exc}")
-            return None
-
-    # ------------------------------------------------------------------ #
     # Acceso público
     # ------------------------------------------------------------------ #
 
@@ -240,17 +194,9 @@ class AssetLoader:
     def get_bird_frames(self) -> list[pygame.Surface]:
         return self._bird_frames
 
-    def get_sound(self, key: str) -> Optional[pygame.mixer.Sound]:
-        return self._sounds.get(key)
-
-    def get_music_path(self) -> Optional[str]:
-        return self._music_path
-
     def reload(self) -> None:
-        """Recarga todos los assets en caliente (útil al reemplazar archivos)."""
+        """Recarga las imágenes en caliente (útil al reemplazar PNGs)."""
         self._images.clear()
-        self._sounds.clear()
         self._bird_frames.clear()
-        self._music_path = None
-        self._load_all()
-        print("[Assets] Assets recargados.")
+        self._load_images()
+        print("[Assets] Imagenes recargadas.")

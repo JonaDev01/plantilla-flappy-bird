@@ -5,10 +5,10 @@ Maneja física (gravedad + salto), rotación visual y animación de frames.
 from __future__ import annotations
 
 import pygame
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from utils.asset_loader import AssetLoader
+    from game.audio_manager import AudioManager
 
 
 class Bird:
@@ -52,7 +52,11 @@ class Bird:
     # Update / Draw
     # ------------------------------------------------------------------ #
 
-    def update(self, jump_pressed: bool, assets: "AssetLoader") -> None:
+    def update(
+        self,
+        jump_pressed: bool,
+        audio: "Optional[AudioManager]" = None,
+    ) -> None:
         # ── Física ──────────────────────────────────────────────────────
         self._vy += self._gravity
         self.y += self._vy
@@ -61,9 +65,8 @@ class Bird:
         if jump_pressed and not self._jump_consumed:
             self._vy = self._jump_strength
             self._jump_consumed = True
-            sfx = assets.get_sound("jump")
-            if sfx:
-                sfx.play()
+            if audio:
+                audio.play_sfx("jump")
         if not jump_pressed:
             self._jump_consumed = False
 
